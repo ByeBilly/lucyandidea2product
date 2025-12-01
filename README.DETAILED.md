@@ -33,6 +33,8 @@ To begin development with this project, follow these steps:
     * CACHE_MEMORY_TTL: Optional - Expiration time when cache mode is memory
     * CACHE_MEMORY_LRUSIZE: Optional - LRU size when cache mode is memory
     * CACHE_REDIS_URL: Optional - Redis URL when cache mode is redis
+    * GEMINI_API_KEY: Required for Lucy feature - Google Gemini API key for AI generation
+    * LUCY_SUNO_REFERRAL_URL: Optional - Suno referral URL (defaults to https://suno.com/invite/@bilingualbeats)
 
 3.  **Generate Database Client**:
     ```bash

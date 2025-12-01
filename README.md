@@ -29,6 +29,7 @@ To start developing with this project, follow these steps:
     * NEXT_PRIVATE_SUPABASE_SERVICE_KEY: Required - Supabase service key
     * OPENMETER_BASE_URL: Required - OpenMeter URL for usage billing module
     * OPENMETER_API_TOKEN: Required - OpenMeter API token for usage billing module
+    * GEMINI_API_KEY: Required for Lucy - Google Gemini API key for AI generation
 
 3.  **Run Database Migrations**:
     ```bash

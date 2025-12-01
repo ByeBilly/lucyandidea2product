@@ -1,0 +1,92 @@
+{
+  "metadata": {
+    "module": "lucy",
+    "description": "Lucy creative companion feature permissions",
+    "owner": "lucy-team",
+    "version": "1.0.0",
+    "lastUpdated": "2025-11-30"
+  },
+  "permissions": {
+    "page": {
+      "/lucy": {
+        "title": "Lucy Page",
+        "description": "Access to Lucy creative companion",
+        "authStatus": "authenticated",
+        "activeStatus": "inactive",
+        "rejectAction": "redirect"
+      }
+    },
+    "action": {
+      "lucySendMessage": {
+        "title": "Send Message to Lucy",
+        "description": "Send a chat message to Lucy AI",
+        "authStatus": "authenticated",
+        "activeStatus": "inactive",
+        "rejectAction": "throw"
+      },
+      "lucyGenerateImage": {
+        "title": "Generate Image via Lucy",
+        "description": "Generate an image using Lucy's Gemini integration",
+        "authStatus": "authenticated",
+        "activeStatus": "inactive",
+        "rejectAction": "throw"
+      },
+      "lucyGenerateVideo": {
+        "title": "Generate Video via Lucy",
+        "description": "Generate a video using Lucy's Gemini integration",
+        "authStatus": "authenticated",
+        "activeStatus": "inactive",
+        "rejectAction": "throw"
+      },
+      "lucyAnimateImage": {
+        "title": "Animate Image via Lucy",
+        "description": "Animate an uploaded image using Lucy's Gemini integration",
+        "authStatus": "authenticated",
+        "activeStatus": "inactive",
+        "rejectAction": "throw"
+      },
+      "lucyGenerateAudio": {
+        "title": "Generate Audio via Lucy",
+        "description": "Generate voiceover/audio using Lucy's Gemini integration",
+        "authStatus": "authenticated",
+        "activeStatus": "inactive",
+        "rejectAction": "throw"
+      },
+      "lucyGetChatHistory": {
+        "title": "Get Lucy Chat History",
+        "description": "Retrieve chat history for the current user",
+        "authStatus": "authenticated",
+        "activeStatus": "inactive",
+        "rejectAction": "throw"
+      },
+      "lucyGetAssets": {
+        "title": "Get Lucy Assets",
+        "description": "Retrieve generated assets for the current user",
+        "authStatus": "authenticated",
+        "activeStatus": "inactive",
+        "rejectAction": "throw"
+      },
+      "lucyDeleteAsset": {
+        "title": "Delete Lucy Asset",
+        "description": "Delete a generated asset",
+        "authStatus": "authenticated",
+        "activeStatus": "inactive",
+        "rejectAction": "throw"
+      }
+    },
+    "component": {
+      "lucyCinemaMode": {
+        "title": "Lucy Cinema Mode",
+        "description": "Access to cinema mode feature",
+        "authStatus": "authenticated",
+        "activeStatus": "inactive",
+        "rejectAction": "hide"
+      }
+    }
+  }
+}
+
+
+
+
+

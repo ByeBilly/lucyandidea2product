@@ -6,3 +6,4 @@ export * from './permission';
 export * from './task';
 export * from './unibee';
 export * from './common';
+export * from './lucy';

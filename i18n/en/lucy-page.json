@@ -1,0 +1,39 @@
+{
+  "metaTitle": "Lucy - Your Creative Companion",
+  "metaDescription": "Create personalized songs, videos, and audio content with Lucy, your AI-powered creative companion.",
+  "pageTitle": "Lucy",
+  "pageSubtitle": "Your creative companion",
+  "yourCreations": "Your Creations",
+  "yourCreationsDescription": "Images, videos & audio",
+  "emptyCreations": "Your generated content will appear here",
+  "cinemaMode": "Cinema Mode",
+  "credits": "Credits",
+  "welcomeTitle": "Hi there! 👋 I'm Lucy, your creative companion.",
+  "welcomeMessage": "I can help you create personalized songs, videos, and audio content. No technical skills needed - just tell me what you'd like to make!",
+  "welcomeHint": "Try saying: \"Write me a birthday song for my mom\" or \"Create a funny video about my cat\"",
+  "inputPlaceholder": "Tell Lucy what you'd like to create...",
+  "send": "Send",
+  "copyLyrics": "Copy Lyrics",
+  "lyricsCopied": "Copied!",
+  "sunoInstructions": "Now click below to create your song on Suno:",
+  "openSuno": "Open Suno (250 free credits!)",
+  "sunoHint": "On Suno: paste → pick style → Create!",
+  "generating": "Generating...",
+  "generatingImage": "Creating your image...",
+  "generatingVideo": "Creating your video clip...",
+  "generatingAudio": "Creating your audio...",
+  "insufficientCredits": "Not enough credits",
+  "errorGeneric": "Something went wrong. Please try again.",
+  "readAloud": "Read aloud",
+  "stopReading": "Stop reading",
+  "download": "Download",
+  "share": "Share",
+  "delete": "Delete",
+  "confirmDelete": "Are you sure you want to delete this?",
+  "costDisplay": "Cost: {cost} credits"
+}
+
+
+
+
+
