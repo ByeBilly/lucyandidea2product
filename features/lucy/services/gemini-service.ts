@@ -22,10 +22,25 @@ export const PRICING = {
 // CLIENT INITIALIZATION
 // ============================================
 
+// Client-provided API key (set via setClientApiKey)
+let clientApiKey: string | undefined;
+
+/**
+ * Set a client-provided API key (for dev/demo mode)
+ * This takes precedence over the environment variable
+ */
+export const setClientApiKey = (key: string | undefined): void => {
+  clientApiKey = key;
+};
+
 const getApiKey = (): string => {
+  // Client key takes precedence (for dev mode)
+  if (clientApiKey) {
+    return clientApiKey;
+  }
   const key = process.env.GEMINI_API_KEY;
   if (!key) {
-    throw new Error("GEMINI_API_KEY environment variable is not set");
+    throw new Error("API key not configured. Click the settings ⚙️ button to enter your Gemini API key.");
   }
   return key;
 };
@@ -198,7 +213,11 @@ Your user is likely someone who feels "left behind" by technology (e.g., a grand
 // CHAT SESSION
 // ============================================
 
-export const createChatSession = (currentCredits: number) => {
+export const createChatSession = (currentCredits: number, apiKey?: string) => {
+  // If API key provided, use it for this session
+  if (apiKey) {
+    setClientApiKey(apiKey);
+  }
   const ai = getClient();
   return ai.chats.create({
     model: 'gemini-2.5-flash',

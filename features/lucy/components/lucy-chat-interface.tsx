@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Paperclip, Film, Plus, Loader2, X, Image as ImageIcon, Music } from 'lucide-react';
+import { Send, Paperclip, Film, Plus, Loader2, X, Image as ImageIcon, Music, Settings, Check, AlertCircle } from 'lucide-react';
 import { ChatMessage } from './chat-message';
 import { AssetCard } from './asset-card';
 import { useLucyChat } from '../hooks/use-lucy-chat';
@@ -32,6 +32,11 @@ interface LucyChatInterfaceProps {
 // ============================================
 
 export function LucyChatInterface({ userId, userCredits = 100 }: LucyChatInterfaceProps) {
+  // Settings state - defined first so we can pass apiKey to hook
+  const [showSettings, setShowSettings] = useState(false);
+  const [apiKey, setApiKey] = useState('');
+  const [apiKeySaved, setApiKeySaved] = useState(false);
+
   const {
     messages,
     chats,
@@ -42,7 +47,7 @@ export function LucyChatInterface({ userId, userCredits = 100 }: LucyChatInterfa
     loadChat,
     startNewChat,
     loadChatHistory,
-  } = useLucyChat();
+  } = useLucyChat({ apiKey });
 
   const [inputValue, setInputValue] = useState('');
   const [attachments, setAttachments] = useState<{ data: string; mimeType: string; type: 'image' | 'audio' }[]>([]);
@@ -52,6 +57,15 @@ export function LucyChatInterface({ userId, userCredits = 100 }: LucyChatInterfa
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  
+  // Load API key from localStorage on mount
+  useEffect(() => {
+    const savedKey = localStorage.getItem('lucy_gemini_api_key');
+    if (savedKey) {
+      setApiKey(savedKey);
+      setApiKeySaved(true);
+    }
+  }, []);
 
   // Load initial data
   useEffect(() => {
@@ -225,6 +239,18 @@ export function LucyChatInterface({ userId, userCredits = 100 }: LucyChatInterfa
             <span className="text-sm text-gray-400">
               Credits: <span className="text-purple-400 font-medium">{userCredits}</span>
             </span>
+            {/* Settings button */}
+            <button 
+              onClick={() => setShowSettings(true)}
+              className={`p-2 rounded-lg transition-colors ${
+                apiKeySaved 
+                  ? 'text-green-400 hover:text-green-300 hover:bg-green-900/20' 
+                  : 'text-yellow-400 hover:text-yellow-300 hover:bg-yellow-900/20 animate-pulse'
+              }`}
+              title={apiKeySaved ? 'API Key configured' : 'Configure API Key'}
+            >
+              <Settings className="w-5 h-5" />
+            </button>
             {/* Mobile menu button */}
             <button className="md:hidden p-2 text-gray-400 hover:text-white">
               <Film className="w-5 h-5" />
@@ -354,6 +380,21 @@ export function LucyChatInterface({ userId, userCredits = 100 }: LucyChatInterfa
           onClose={() => setShowCinema(false)}
         />
       )}
+
+      {/* Settings Modal */}
+      {showSettings && (
+        <SettingsModal
+          apiKey={apiKey}
+          onApiKeyChange={setApiKey}
+          onSave={() => {
+            localStorage.setItem('lucy_gemini_api_key', apiKey);
+            setApiKeySaved(true);
+            setShowSettings(false);
+          }}
+          onClose={() => setShowSettings(false)}
+          isSaved={apiKeySaved}
+        />
+      )}
     </div>
   );
 }
@@ -442,6 +483,111 @@ function CinemaMode({ videos, audio, onClose }: CinemaModeProps) {
       {/* Video title */}
       <div className="absolute bottom-4 left-4 right-4 text-white text-center">
         <p className="text-sm text-gray-400">{currentVideo.prompt}</p>
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// SETTINGS MODAL COMPONENT
+// ============================================
+
+interface SettingsModalProps {
+  apiKey: string;
+  onApiKeyChange: (key: string) => void;
+  onSave: () => void;
+  onClose: () => void;
+  isSaved: boolean;
+}
+
+function SettingsModal({ apiKey, onApiKeyChange, onSave, onClose, isSaved }: SettingsModalProps) {
+  const [showKey, setShowKey] = useState(false);
+
+  return (
+    <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
+      <div className="bg-gray-900 rounded-xl border border-gray-700 w-full max-w-md shadow-2xl">
+        {/* Header */}
+        <div className="flex items-center justify-between p-4 border-b border-gray-700">
+          <h2 className="text-xl font-semibold text-white flex items-center gap-2">
+            <Settings className="w-5 h-5" />
+            Settings
+          </h2>
+          <button
+            onClick={onClose}
+            className="p-2 hover:bg-gray-800 rounded-lg transition-colors text-gray-400 hover:text-white"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Content */}
+        <div className="p-4 space-y-4">
+          {/* API Key Input */}
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              Google Gemini API Key
+            </label>
+            <div className="relative">
+              <input
+                type={showKey ? 'text' : 'password'}
+                value={apiKey}
+                onChange={(e) => onApiKeyChange(e.target.value)}
+                placeholder="Enter your Gemini API key..."
+                className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent pr-20"
+              />
+              <button
+                onClick={() => setShowKey(!showKey)}
+                className="absolute right-2 top-1/2 -translate-y-1/2 px-3 py-1 text-xs text-gray-400 hover:text-white transition-colors"
+              >
+                {showKey ? 'Hide' : 'Show'}
+              </button>
+            </div>
+            <p className="mt-2 text-xs text-gray-500">
+              Get your free API key from{' '}
+              <a
+                href="https://aistudio.google.com/app/apikey"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-purple-400 hover:text-purple-300 underline"
+              >
+                Google AI Studio
+              </a>
+            </p>
+          </div>
+
+          {/* Status indicator */}
+          {isSaved && (
+            <div className="flex items-center gap-2 p-3 bg-green-900/20 border border-green-800 rounded-lg text-green-400">
+              <Check className="w-4 h-4" />
+              <span className="text-sm">API key is configured</span>
+            </div>
+          )}
+
+          {!apiKey && !isSaved && (
+            <div className="flex items-center gap-2 p-3 bg-yellow-900/20 border border-yellow-800 rounded-lg text-yellow-400">
+              <AlertCircle className="w-4 h-4" />
+              <span className="text-sm">API key required to use Lucy</span>
+            </div>
+          )}
+        </div>
+
+        {/* Footer */}
+        <div className="flex gap-3 p-4 border-t border-gray-700">
+          <button
+            onClick={onClose}
+            className="flex-1 py-2 px-4 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={onSave}
+            disabled={!apiKey.trim()}
+            className="flex-1 py-2 px-4 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          >
+            <Check className="w-4 h-4" />
+            Save
+          </button>
+        </div>
       </div>
     </div>
   );

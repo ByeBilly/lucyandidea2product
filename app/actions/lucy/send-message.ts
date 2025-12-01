@@ -14,6 +14,7 @@ interface SendMessageInput {
     mimeType: string;
     type: 'image' | 'audio';
   }[];
+  apiKey?: string; // Client-provided API key for dev mode
 }
 
 interface SendMessageResult {
@@ -64,7 +65,8 @@ export const sendMessage = dataActionWithPermission(
       const currentCredits = 100;
 
       // Create chat session and send message
-      const chatSession = createChatSession(currentCredits);
+      // Pass client API key if provided (dev mode)
+      const chatSession = createChatSession(currentCredits, input.apiKey);
       
       // Build message parts
       const parts: any[] = [];

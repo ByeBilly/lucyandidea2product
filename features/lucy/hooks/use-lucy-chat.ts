@@ -56,7 +56,12 @@ interface UseLucyChatReturn {
 // HOOK
 // ============================================
 
-export function useLucyChat(): UseLucyChatReturn {
+interface UseLucyChatOptions {
+  apiKey?: string;
+}
+
+export function useLucyChat(options: UseLucyChatOptions = {}): UseLucyChatReturn {
+  const { apiKey } = options;
   const [messages, setMessages] = useState<Message[]>([]);
   const [chats, setChats] = useState<Chat[]>([]);
   const [currentChatId, setCurrentChatId] = useState<string | null>(null);
@@ -137,6 +142,7 @@ export function useLucyChat(): UseLucyChatReturn {
         chatId: currentChatId || undefined,
         text,
         attachments,
+        apiKey: apiKey || undefined,
       });
 
       if (!result.success) {
@@ -201,7 +207,7 @@ export function useLucyChat(): UseLucyChatReturn {
     } finally {
       setIsProcessing(false);
     }
-  }, [currentChatId, loadChatHistory]);
+  }, [currentChatId, loadChatHistory, apiKey]);
 
   // Clear error
   const clearError = useCallback(() => {
